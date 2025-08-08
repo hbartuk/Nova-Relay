@@ -28,7 +28,7 @@ Follow these steps to compile Nova Relay:
 
    ```bash
    git clone https://github.com/RadiantByte/Nova-Relay.git
-   cd NovaRelay
+   cd Nova-Relay
    ```
 
 2. **Build the project**:
