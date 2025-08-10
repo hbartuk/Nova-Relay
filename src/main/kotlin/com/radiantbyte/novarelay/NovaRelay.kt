@@ -38,7 +38,7 @@ class NovaRelay(
             .motd("NovaRelay")
             .playerCount(0)
             .maximumPlayerCount(20)
-            .subMotd("hello world")
+            .subMotd("Nova Relay")
             .nintendoLimited(false)
 
     }
