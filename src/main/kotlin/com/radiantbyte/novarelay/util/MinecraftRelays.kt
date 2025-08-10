@@ -59,8 +59,8 @@ fun authorize(
 
 fun StepFullBedrockSession.FullBedrockSession.refresh(): StepFullBedrockSession.FullBedrockSession {
     val httpClient = MinecraftAuth.createHttpClient()
-    httpClient.connectTimeout = 1000
-    httpClient.readTimeout = 2000
-    httpClient.setRetryHandler(RetryHandler(0, Int.MAX_VALUE))
+    httpClient.connectTimeout = 10000
+    httpClient.readTimeout = 15000
+    httpClient.setRetryHandler(RetryHandler(2, Int.MAX_VALUE))
     return MinecraftAuth.BEDROCK_DEVICE_CODE_LOGIN.refresh(httpClient, this)
 }
