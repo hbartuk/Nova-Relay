@@ -2,7 +2,6 @@ package com.radiantbyte.novarelay.listener
 
 import com.radiantbyte.novarelay.NovaRelaySession
 import com.radiantbyte.novarelay.util.AuthUtils
-import com.radiantbyte.novarelay.util.refresh
 import net.raphimc.minecraftauth.step.bedrock.session.StepFullBedrockSession
 import org.cloudburstmc.protocol.bedrock.data.PacketCompressionAlgorithm
 import org.cloudburstmc.protocol.bedrock.data.auth.AuthType
@@ -21,7 +20,7 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 @Suppress("MemberVisibilityCanBePrivate")
 class OnlineLoginPacketListener(
     val novaRelaySession: NovaRelaySession,
-    private var fullBedrockSession: StepFullBedrockSession.FullBedrockSession
+    val fullBedrockSession: StepFullBedrockSession.FullBedrockSession
 ) : NovaRelayPacketListener {
 
     private var skinData: JSONObject? = null
@@ -29,16 +28,8 @@ class OnlineLoginPacketListener(
     override fun beforeClientBound(packet: BedrockPacket): Boolean {
         if (packet is LoginPacket) {
             if (fullBedrockSession.isExpired) {
-                println("Session expired, attempting to refresh tokens...")
-
-                try {
-                    fullBedrockSession = fullBedrockSession.refresh()
-                    println("Successfully refreshed session for: ${fullBedrockSession.mcChain.displayName}")
-                } catch (e: Exception) {
-                    println("Failed to refresh session: ${e.message}")
-                    novaRelaySession.server.disconnect("Your session has expired and could not be refreshed. Please re-login in the Nova Client.")
-                    return true
-                }
+                novaRelaySession.server.disconnect("Your session was expired, you need to delete account then login again in the NovaClient")
+                return true
             }
 
             println("Handle online login data")
