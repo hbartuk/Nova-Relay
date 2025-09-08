@@ -3,6 +3,7 @@ package com.radiantbyte.novarelay.listener
 import com.radiantbyte.novarelay.NovaRelaySession
 import com.radiantbyte.novarelay.util.AuthUtils
 import com.radiantbyte.novarelay.util.refresh
+import net.kyori.adventure.text.Component
 import net.raphimc.minecraftauth.step.bedrock.session.StepFullBedrockSession
 import org.cloudburstmc.protocol.bedrock.data.PacketCompressionAlgorithm
 import org.cloudburstmc.protocol.bedrock.data.auth.AuthType
@@ -36,7 +37,7 @@ class OnlineLoginPacketListener(
                     println("Successfully refreshed session for: ${fullBedrockSession.mcChain.displayName}")
                 } catch (e: Exception) {
                     println("Failed to refresh session: ${e.message}")
-                    novaRelaySession.server.disconnect("Your session has expired and could not be refreshed. Please re-login in the Nova Client.")
+                    novaRelaySession.server.disconnect(Component.text("Your session has expired and could not be refreshed. Please re-login in the Nova Client."))
                     return true
                 }
             }
@@ -83,7 +84,7 @@ class OnlineLoginPacketListener(
                 println("Login success")
             } catch (e: Throwable) {
                 novaRelaySession.clientBound(DisconnectPacket().apply {
-                    kickMessage = e.toString()
+                    kickMessage = Component.text(e.toString())
                 })
                 println("Login failed: $e")
             }

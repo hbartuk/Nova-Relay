@@ -2,6 +2,7 @@ package com.radiantbyte.novarelay
 
 import com.radiantbyte.novarelay.listener.NovaRelayPacketListener
 import io.netty.util.internal.PlatformDependent
+import net.kyori.adventure.text.Component
 import org.cloudburstmc.protocol.bedrock.BedrockClientSession
 import org.cloudburstmc.protocol.bedrock.BedrockPeer
 import org.cloudburstmc.protocol.bedrock.BedrockServerSession
@@ -74,14 +75,14 @@ class NovaRelaySession internal constructor(
 
         init {
             packetHandler = object : BedrockPacketHandler {
-                override fun onDisconnect(reason: String) {
+                override fun onDisconnect(reason: Component) {
                     println("Client disconnect: $reason")
                     runCatching {
                         client?.disconnect()
                     }
                     listeners.forEach {
                         runCatching {
-                            it.onDisconnect(reason)
+                            it.onDisconnect(reason.toString())
                         }
                     }
                 }
@@ -125,14 +126,14 @@ class NovaRelaySession internal constructor(
         init {
             packetHandler = object : BedrockPacketHandler {
 
-                override fun onDisconnect(reason: String) {
+                override fun onDisconnect(reason: Component) {
                     println("Server disconnect: $reason")
                     runCatching {
                         server.disconnect()
                     }
                     listeners.forEach {
                         runCatching {
-                            it.onDisconnect(reason)
+                            it.onDisconnect(reason.toString())
                         }
                     }
                 }

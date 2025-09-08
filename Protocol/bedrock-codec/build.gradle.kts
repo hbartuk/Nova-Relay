@@ -19,6 +19,8 @@ repositories {
 
 dependencies {
     api(project(":Protocol:common"))
+    api(libs.adventure.text.serializer.legacy)
+    api(libs.adventure.text.serializer.json)
     api(platform(libs.fastutil.bom))
     api(libs.netty.buffer)
     api(libs.fastutil.long.common)
@@ -27,4 +29,7 @@ dependencies {
     api(libs.nbt)
     api(libs.jackson.annotations)
     api(libs.jackson.databind)
+
+    // Tests
+    testImplementation(libs.junit)
 }
