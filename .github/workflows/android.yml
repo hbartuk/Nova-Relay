@@ -1,4 +1,4 @@
-name: Android CI
+name: Build NovaRelay JAR
 
 on:
   push:
@@ -8,19 +8,34 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: set up JDK 11
+    # Шаг 1: Клонирование репозитория
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Шаг 2: Настройка Java JDK 17. Ваш проект требует именно эту версию.
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'temurin'
         cache: gradle
 
+    # Шаг 3: Предоставление прав на выполнение для Gradle Wrapper
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+
+    # Шаг 4: Сборка исполняемого JAR-файла с помощью задачи uberJar
+    # Эта команда создаст NovaRelay.jar со всеми зависимостями внутри.
+    - name: Build executable JAR with Gradle
+      run: ./gradlew uberJar
+
+    # Шаг 5: Загрузка собранного JAR-файла как артефакта
+    - name: Upload JAR artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: NovaRelay-JAR
+        path: build/libs/NovaRelay.jar # Путь к вашему файлу
+        if-no-files-found: error
