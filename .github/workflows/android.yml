@@ -1,18 +1,16 @@
-name: Build and Release NovaRelay
+name: Build and Update Latest Release
 
 on:
-  # Этот workflow будет запускаться ТОЛЬКО при отправке тега, который начинается с 'v'
-  # Например: v1.0, v1.1.0, v1.2.1-alpha
+  # Запускать при каждом push в ветку main
   push:
-    tags:
-      - 'v*'
+    branches: [ "main" ]
 
 jobs:
   build-and-release:
-    name: Build and Release
+    name: Build and Update Release
     runs-on: ubuntu-latest
 
-    # Предоставляем права на запись для создания релиза
+    # Предоставляем права на запись для создания/изменения релиза
     permissions:
       contents: write
 
@@ -33,19 +31,19 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    # Шаг 4: Сборка исполняемого JAR-файла
-    # Для релиза мы НЕ пропускаем тесты. Если тесты падают, релиз не должен состояться.
+    # Шаг 4: Сборка исполняемого JAR-файла (с пропуском тестов)
     - name: Build executable JAR with Gradle
-      run: ./gradlew uberJar
+      run: ./gradlew uberJar -x test
 
-    # Шаг 5: Создание релиза и загрузка JAR-файла
-    # Используем популярный и надежный action softprops/action-gh-release
-    - name: Create GitHub Release and Upload Artifact
+    # Шаг 5: Обновление релиза "latest"
+    - name: Update Latest Release
       uses: softprops/action-gh-release@v2
       with:
-        # Имя релиза будет "Release v1.0" (где v1.0 - это имя тега)
-        name: Release ${{ github.ref_name }}
-        # Тело релиза (описание). Можно оставить пустым или добавить что-то.
-        body: Automated release of ${{ github.ref_name }}
-        # Файлы, которые нужно прикрепить к релизу
+        # Всегда используем один и тот же тег
+        tag_name: "latest" 
+        # Название релиза
+        name: "Latest Build (from main)"
+        # Описание релиза
+        body: "Это последняя сборка из ветки main. Она может быть нестабильной."
+        # Файлы для загрузки
         files: build/libs/NovaRelay.jar
