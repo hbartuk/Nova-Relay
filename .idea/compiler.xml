@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.36/5a30490a6e14977d97d9c73c924c1f1b5311ea95/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="NovaRelay.Network.codec-query.main" />
+        <module name="NovaRelay.Network.transport-raknet.main" />
+        <module name="NovaRelay.Network.codec-rcon.main" />
+        <module name="NovaRelay.Network.codec-rcon.test" />
+        <module name="NovaRelay.main" />
+        <module name="NovaRelay.Network.codec-query.test" />
+        <module name="NovaRelay.test" />
+        <module name="NovaRelay.Network.transport-raknet.test" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <option name="suppressWarnings" value="type.anno.before.modifier" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker/3.49.0/72e5c88e0d62c4f0b33e65687dd31d528dd27d21/checker-3.49.0-all.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-util/3.49.0/a0ff660b61101164fd5818b0dfc0e643fbc601f5/checker-util-3.49.0.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/3.49.0/54be36cb42c9b991c109e467e2bfa82af4cda44e/checker-qual-3.49.0.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.36/5a30490a6e14977d97d9c73c924c1f1b5311ea95/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="NovaRelay.Protocol.bedrock-codec.main" />
+        <module name="NovaRelay.Protocol.bedrock-connection.test" />
+        <module name="NovaRelay.Protocol.common.main" />
+        <module name="NovaRelay.Protocol.bedrock-codec.test" />
+        <module name="NovaRelay.Protocol.common.test" />
+        <module name="NovaRelay.Protocol.bedrock-connection.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="NovaRelay" options="-Xlint:-processing" />
+      <module name="NovaRelay.Network.codec-query" options="-Xlint:-processing" />
+      <module name="NovaRelay.Network.codec-query.main" options="-Xlint:-processing" />
+      <module name="NovaRelay.Network.codec-query.test" options="-Xlint:-processing" />
+      <module name="NovaRelay.Network.codec-rcon" options="-Xlint:-processing" />
+      <module name="NovaRelay.Network.codec-rcon.main" options="-Xlint:-processing" />
+      <module name="NovaRelay.Network.codec-rcon.test" options="-Xlint:-processing" />
+      <module name="NovaRelay.Network.transport-raknet" options="-Xlint:-processing" />
+      <module name="NovaRelay.Network.transport-raknet.main" options="-Xlint:-processing" />
+      <module name="NovaRelay.Network.transport-raknet.test" options="-Xlint:-processing" />
+      <module name="NovaRelay.Protocol.bedrock-codec" options="-Xlint:-processing -AsuppressWarnings=type.anno.before.modifier" />
+      <module name="NovaRelay.Protocol.bedrock-codec.main" options="-Xlint:-processing -AsuppressWarnings=type.anno.before.modifier" />
+      <module name="NovaRelay.Protocol.bedrock-codec.test" options="-Xlint:-processing -AsuppressWarnings=type.anno.before.modifier" />
+      <module name="NovaRelay.Protocol.bedrock-connection" options="-Xlint:-processing -AsuppressWarnings=type.anno.before.modifier" />
+      <module name="NovaRelay.Protocol.bedrock-connection.main" options="-Xlint:-processing -AsuppressWarnings=type.anno.before.modifier" />
+      <module name="NovaRelay.Protocol.bedrock-connection.test" options="-Xlint:-processing -AsuppressWarnings=type.anno.before.modifier" />
+      <module name="NovaRelay.Protocol.common" options="-Xlint:-processing -AsuppressWarnings=type.anno.before.modifier" />
+      <module name="NovaRelay.Protocol.common.main" options="-Xlint:-processing -AsuppressWarnings=type.anno.before.modifier" />
+      <module name="NovaRelay.Protocol.common.test" options="-Xlint:-processing -AsuppressWarnings=type.anno.before.modifier" />
+      <module name="NovaRelay.main" options="-Xlint:-processing" />
+      <module name="NovaRelay.test" options="-Xlint:-processing" />
+    </option>
+  </component>
+</project>
