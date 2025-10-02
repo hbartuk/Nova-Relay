@@ -1,10 +1,12 @@
 package com.radiantbyte.novarelay.examples
 
+import com.radiantbyte.novarelay.LoginMode // Импортируем LoginMode
 import com.radiantbyte.novarelay.NovaRelay
 import com.radiantbyte.novarelay.address.NovaAddress
 import com.radiantbyte.novarelay.config.EnhancedServerConfig
 import com.radiantbyte.novarelay.listener.NovaRelayPacketListener
 import com.radiantbyte.novarelay.util.ServerCompatUtils
+import com.radiantbyte.novarelay.util.authorize // Импортируем authorize
 import kotlinx.coroutines.runBlocking
 import org.cloudburstmc.protocol.bedrock.packet.BedrockPacket
 
@@ -42,7 +44,14 @@ object EnhancedServerExample {
         
         println("🚀 Starting Nova Relay...")
 
-        relay.capture(protectedServer) {
+        // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
+        // Получаем сессию и передаем ее вместе с LoginMode.ONLINE
+        val session = authorize()
+        relay.capture(
+            remoteAddress = protectedServer,
+            loginMode = LoginMode.ONLINE,
+            fullBedrockSession = session
+        ) {
             println("📡 Nova Relay session created")
 
             listeners.add(object : NovaRelayPacketListener {
@@ -129,7 +138,12 @@ object EnhancedServerExample {
         }
         
         val relay = NovaRelay()
-        relay.capture(server) {
+        // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
+        // Используем OFFLINE, так как для простого теста подключения не нужна аутентификация
+        relay.capture(
+            remoteAddress = server,
+            loginMode = LoginMode.OFFLINE
+        ) {
             runBlocking {
                 try {
                     val result = relay.connectToServerAsync {
