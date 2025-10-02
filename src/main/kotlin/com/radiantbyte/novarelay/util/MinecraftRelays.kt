@@ -1,6 +1,7 @@
 package com.radiantbyte.novarelay.util
 
 import com.google.gson.JsonParser
+import com.radiantbyte.novarelay.LoginMode // Импортируем LoginMode
 import com.radiantbyte.novarelay.NovaRelay
 import com.radiantbyte.novarelay.NovaRelaySession
 import com.radiantbyte.novarelay.address.NovaAddress
@@ -16,6 +17,10 @@ fun captureGamePacket(
     advertisement: BedrockPong = NovaRelay.DefaultAdvertisement,
     localAddress: NovaAddress = NovaAddress("0.0.0.0", 19132),
     remoteAddress: NovaAddress,
+    // --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
+    loginMode: LoginMode,
+    fullBedrockSession: StepFullBedrockSession.FullBedrockSession? = null,
+    // ----------------------
     onSessionCreated: NovaRelaySession.() -> Unit
 ): NovaRelay {
     return NovaRelay(
@@ -23,6 +28,10 @@ fun captureGamePacket(
         advertisement = advertisement
     ).capture(
         remoteAddress = remoteAddress,
+        // --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
+        loginMode = loginMode,
+        fullBedrockSession = fullBedrockSession,
+        // ----------------------
         onSessionCreated = onSessionCreated
     )
 }
@@ -35,8 +44,13 @@ fun authorize(
     }
 ): StepFullBedrockSession.FullBedrockSession {
     if (cache && file != null && file.exists()) {
-        val json = JsonParser.parseString(file.readText()).asJsonObject
-        return MinecraftAuth.BEDROCK_DEVICE_CODE_LOGIN.fromJson(json)
+        try {
+            val json = JsonParser.parseString(file.readText()).asJsonObject
+            return MinecraftAuth.BEDROCK_DEVICE_CODE_LOGIN.fromJson(json)
+        } catch (e: Exception) {
+            println("Failed to load cached session, re-authenticating...")
+            file.delete() // Удаляем поврежденный файл кэша
+        }
     }
 
     val httpClient = MinecraftAuth.createHttpClient()
