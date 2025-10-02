@@ -28,12 +28,20 @@ import org.cloudburstmc.protocol.bedrock.codec.v827.Bedrock_v827
 import org.cloudburstmc.protocol.bedrock.netty.initializer.BedrockChannelInitializer
 import kotlin.random.Random
 
-// --- ДОБАВЛЕНО: Enum для выбора режима входа ---
+/**
+ * Определяет режим аутентификации для прокси.
+ */
 enum class LoginMode {
+    /**
+     * Использует реальную сессию Xbox Live для входа на защищенные серверы.
+     */
     ONLINE,
+
+    /**
+     * Использует самоподписанные токены для входа на оффлайн-серверы.
+     */
     OFFLINE
 }
-// -------------------------------------------
 
 class NovaRelay(
     val localAddress: NovaAddress = NovaAddress("0.0.0.0", 19132),
@@ -71,7 +79,13 @@ class NovaRelay(
     var remoteAddress: NovaAddress? = null
         internal set
 
-    // --- ИЗМЕНЕНО: Метод capture теперь принимает loginMode и опциональную сессию ---
+    /**
+     * Запускает прокси-сервер.
+     * @param remoteAddress Адрес целевого сервера.
+     * @param loginMode Режим аутентификации (ONLINE или OFFLINE).
+     * @param fullBedrockSession Валидная сессия Xbox Live, обязательна для режима ONLINE.
+     * @param onSessionCreated Лямбда, которая будет вызвана после создания сессии для добавления пользовательских слушателей.
+     */
     fun capture(
         remoteAddress: NovaAddress = NovaAddress("geo.hivebedrock.network", 19132),
         loginMode: LoginMode,
@@ -118,7 +132,7 @@ class NovaRelay(
                             }
                             connectionManager = ConnectionManager(session, config)
 
-                            // --- КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Добавляем слушателя в зависимости от режима ---
+                            // В зависимости от режима, добавляем нужный слушатель
                             when (loginMode) {
                                 LoginMode.ONLINE -> {
                                     require(fullBedrockSession != null) { "Online mode requires a valid Bedrock session!" }
@@ -128,7 +142,6 @@ class NovaRelay(
                                     session.listeners.add(OfflineLoginPacketListener(session))
                                 }
                             }
-                            // --------------------------------------------------------------------
 
                             // Вызываем коллбэк, чтобы пользователь мог добавить свои слушатели
                             session.onSessionCreated()
@@ -154,7 +167,6 @@ class NovaRelay(
 
         return this
     }
-    // --------------------------------------------------------------------------------
 
     internal fun connectToServer(onSessionCreated: ClientSession.() -> Unit) {
         val manager = connectionManager ?: throw IllegalStateException("Connection manager not initialized")
@@ -184,8 +196,7 @@ class NovaRelay(
 
         return manager.connectToServer(address, onSessionCreated)
     }
-    
-    // --- ДОБАВЛЕНО: Метод disconnect ---
+
     fun disconnect() {
         if (!isRunning) {
             return
@@ -199,5 +210,4 @@ class NovaRelay(
         novaRelaySession = null
         connectionManager = null
     }
-    // ---------------------------------
 }
