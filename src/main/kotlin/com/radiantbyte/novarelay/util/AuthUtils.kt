@@ -68,10 +68,16 @@ object AuthUtils {
         val overridedData = HashMap<String, Any>()
         overridedData["PlayFabId"] = fullBedrockSession.playFabToken.playFabId.lowercase(Locale.ROOT)
         overridedData["DeviceId"] = Uuid.random().toString()
-        overridedData["DeviceOS"] = 1
+
+        // ✅ Не перезаписываем DeviceOS, если клиент уже указал своё значение
+        if (!skinData.containsKey("DeviceOS")) {
+            overridedData["DeviceOS"] = 1 // fallback только если клиент не подменял
+        }
+
         overridedData["ThirdPartyName"] = fullBedrockSession.mcChain.displayName
         overridedData["ServerAddress"] = "${remoteAddress.hostName}:${remoteAddress.port}"
 
+        // Объединяем данные, не теряя spoof-поля клиента
         skinData.putAll(overridedData)
 
         val jws = JsonWebSignature()
